@@ -197,6 +197,3 @@ This prototype is suitable for:
 - Real providers can be configured through environment variables when live AI access is required.
 - The generation and versioning layer is designed to support iterative enterprise content workflows.
 
-## License
-
-This project is intended for educational, prototype, and demonstrator use.
