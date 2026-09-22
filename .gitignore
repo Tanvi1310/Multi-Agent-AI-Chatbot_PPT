@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+.pytest_cache/
+
+# Environments
+.env
+.env.local
+
+# Database
+*.db
+
+# Build artifacts
+storage/
+frontend/dist/
+
+# Node
+frontend/node_modules/
+frontend/package-lock.json
+
+# OS/editor
+.DS_Store
+.vscode/
