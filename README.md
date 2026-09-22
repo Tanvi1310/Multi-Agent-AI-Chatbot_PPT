@@ -1,40 +1,74 @@
 # Multi-Agent AI Chatbot for Document & PPT Generation
 
-A modern multi-agent AI workspace for uploading documents, PDFs, PPT/PPTX files, and images, then using AI to analyze content, retrieve enterprise knowledge, research web context, and generate or revise editable business artifacts.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-3776AB?style=for-the-badge&logo=python" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-0.110%2B-009688?style=for-the-badge&logo=fastapi" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/LangGraph-MultiAgent-8A2BE2?style=for-the-badge" alt="LangGraph" />
+  <img src="https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker" alt="Docker" />
+</p>
 
-This project is designed as a full-stack prototype for enterprise content workflows, combining:
+<p align="center">
+  <strong>AI-powered document, presentation, and enterprise knowledge workflow builder.</strong>
+</p>
 
-- AI-powered document and presentation analysis
-- LangGraph-based multi-agent orchestration
-- RAG-style enterprise knowledge retrieval
-- web research integration
-- editable DOCX/PPTX generation
-- conversational revision and versioning
-- traceability and validation metadata
+A full-stack prototype for uploading documents, PDFs, PPT/PPTX files, and images, then using a multi-agent AI system to analyze content, retrieve enterprise knowledge, research web context, and generate or revise editable business artifacts.
 
-## Features
+## Why this project
 
-- Upload and track document, presentation, and image files
-- Create chat conversations for each project or use case
-- Analyze uploaded content and extract core structure
-- Route requests through a multi-agent workflow
-- Retrieve internal enterprise knowledge with RAG
-- Research external information through a research service
-- Generate DOCX and PPTX outputs from AI-driven templates
-- Apply iterative edits with artifact versioning
-- Validate generated content and keep traceability metadata
-- Support local demo mode and provider-aware live LLM configuration
+This project helps teams automate the messy middle layer between raw knowledge and polished business output:
+
+- upload source documents and presentations
+- understand the content structure and intent
+- enrich the request with internal knowledge and external research
+- generate or revise DOCX/PPTX deliverables
+- keep traceability, validation, and version continuity
+
+It is built as a practical enterprise POC that demonstrates how AI agents can collaborate around a real document workflow.
+
+## Core features
+
+- Upload and manage DOCX, PDF, PPT/PPTX, and image files
+- Create conversations and track artifacts by session
+- Analyze uploaded files to extract headings, text, and slide structure
+- Orchestrate requests through a LangGraph multi-agent workflow
+- Pull retrieval context from an internal enterprise knowledge base
+- Perform research-aware content enhancement
+- Generate editable DOCX and PPTX outputs
+- Support conversational edits and revision history
+- Validate generated output and attach traceability metadata
+- Run in local demo mode with safe provider fallback
 
 ## Tech stack
 
 - Backend: FastAPI, SQLAlchemy, JWT auth
 - Frontend: React + Vite + Tailwind CSS
-- Agent orchestration: LangGraph
-- Document & presentation generation: python-docx, python-pptx
-- OCR and document processing: PyMuPDF, pytesseract, OpenCV, Pillow
-- Retrieval: vector search with mock fallback and Pinecone-ready abstraction
-- LLM integration: OpenAI-compatible providers with safe fallback behavior
-- Containerization: Docker Compose
+- Orchestration: LangGraph
+- Document generation: python-docx, python-pptx
+- OCR / document parsing: PyMuPDF, pytesseract, OpenCV, Pillow
+- Retrieval: vector-search abstraction with mock + Pinecone-ready support
+- LLM access: OpenAI-compatible providers with safe fallback
+- Deployment: Docker Compose
+
+## Architecture overview
+
+```text
+Frontend UI
+   ↓
+FastAPI API
+   ↓
+Auth + Conversation + Artifact storage
+   ↓
+Supervisor + LangGraph agents
+   ├── document analysis
+   ├── PPT analysis
+   ├── OCR / image handling
+   ├── web research
+   ├── enterprise RAG
+   ├── generation
+   ├── validation
+   └── editing/versioning
+```
 
 ## Project structure
 
@@ -69,23 +103,13 @@ This project is designed as a full-stack prototype for enterprise content workfl
 ├── docker-compose.yml
 ├── README.md
 ├── storage/
-└── app.db
+├── app.db
+└── .env
 ```
 
-## Architecture overview
+## Quick start
 
-The system follows a modular layered design:
-
-1. Frontend chat + upload experience
-2. FastAPI API layer with auth and conversation state
-3. Multi-agent orchestration with LangGraph
-4. Analysis, research, and retrieval services
-5. Generation and editing pipelines for DOCX/PPTX outputs
-6. Validation and traceability layer for quality checks
-
-## Local setup
-
-### 1) Create Python environment
+### 1) Set up Python environment
 
 ```powershell
 cd backend
@@ -94,15 +118,15 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-### 2) Configure environment
+### 2) Create environment file
 
-From the repo root:
+From the repository root:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-### 3) Run backend
+### 3) Start the backend
 
 ```powershell
 cd backend
@@ -110,7 +134,7 @@ $env:PYTHONPATH = "backend"
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### 4) Run frontend
+### 4) Start the frontend
 
 ```powershell
 cd frontend
@@ -118,34 +142,27 @@ npm install
 npm run dev -- --host 0.0.0.0
 ```
 
-Open the app at:
+### 5) Open the app
 
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8000
 
-## Docker
-
-From the root folder:
+## Docker setup
 
 ```powershell
 docker compose up --build
 ```
 
-This starts:
+## Demo credentials
 
-- backend on port 8000
-- frontend on port 3000
-
-## Demo login
-
-The project supports a built-in local demo account:
+The app ships with a local demo login for quick testing:
 
 - Email: demo@example.com
 - Password: demo1234
 
 ## Testing
 
-Run verification from the repository root:
+Run the test suite from the project root:
 
 ```powershell
 $env:PYTHONPATH = "backend"
@@ -163,22 +180,23 @@ python -m pytest -q --disable-plugin-autoload
 - POST /api/v1/analyze
 - POST /api/v1/orchestrate
 
+## Use cases
+
+This prototype is suitable for:
+
+- sales proposal generation
+- internal research synthesis
+- executive deck summarization
+- content adaptation from uploaded templates
+- document-to-presentation workflows
+- enterprise knowledge assistants
+
 ## Notes
 
-- The app supports a local demo/mock mode for quick development and validation.
-- Real provider integration is possible by adding environment keys and switching to live service configuration.
-- Artifact generation and revision flows are organized to support future enterprise-grade production workflows.
-
-## GitHub readiness
-
-This repository is prepared for public/follow-along usage with:
-
-- environment-based settings
-- modular backend/frontend architecture
-- Docker-based local execution
-- a staged validation suite covering orchestration, generation, editing, research, and LLM integration
-- no secrets or credentials committed by default
+- Local demo mode is intentionally included for easy setup and validation.
+- Real providers can be configured through environment variables when live AI access is required.
+- The generation and versioning layer is designed to support iterative enterprise content workflows.
 
 ## License
 
-This project is intended for educational and prototype/demo use.
+This project is intended for educational, prototype, and demonstrator use.
